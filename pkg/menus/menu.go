@@ -20,8 +20,8 @@ func pkgbuildNumberMenu(logger *text.Logger, pkgbuildDirs map[string]string,
 
 	for n, pkgBase := range bases {
 		dir := pkgbuildDirs[pkgBase]
-		toPrint += fmt.Sprintf(text.Magenta("%3d")+" %-40s", len(pkgbuildDirs)-n,
-			text.Bold(pkgBase))
+		pkgStr := text.CreateRepoLink("aur", "", pkgBase, text.Bold(pkgBase))
+		toPrint += fmt.Sprintf(text.Magenta("%3d")+" %-40s", len(pkgbuildDirs)-n, pkgStr)
 
 		if installed.Contains(pkgBase) {
 			toPrint += text.Bold(text.Green(gotext.Get(" (Installed)")))
