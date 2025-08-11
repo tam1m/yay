@@ -157,11 +157,24 @@ func (preper *Preparer) Present(targets []map[string]*dep.InstallInfo) {
 			reason := dep.ReasonNames[info.Reason]
 
 			var pkgStr string
+			var repo, arch string
+			name := pkgName
+
+			switch info.Source {
+			case dep.AUR:
+				repo = "aur"
+				arch = ""
+			case dep.Sync:
+				repo = *info.SyncDBName
+				arch = info.Architecture
+			}
+
 			if info.Version != "" {
 				pkgStr = text.Cyan(fmt.Sprintf("%s-%s", pkgName, info.Version))
 			} else {
 				pkgStr = text.Cyan(pkgName)
 			}
+			pkgStr = text.CreateRepoLink(repo, arch, name, pkgStr)
 
 			if _, ok := pkgsBySourceAndReason[source]; !ok {
 				pkgsBySourceAndReason[source] = map[string][]string{}

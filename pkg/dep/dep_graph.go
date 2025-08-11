@@ -26,6 +26,7 @@ type InstallInfo struct {
 	SrcinfoPath  *string
 	AURBase      *string
 	SyncDBName   *string
+	Architecture string
 
 	IsGroup bool
 	Upgrade bool
@@ -329,10 +330,11 @@ func (g *Grapher) GraphSyncPkg(ctx context.Context,
 
 	dbName := pkg.DB().Name()
 	info := &InstallInfo{
-		Source:     Sync,
-		Reason:     Explicit,
-		Version:    pkg.Version(),
-		SyncDBName: &dbName,
+		Source:       Sync,
+		Reason:       Explicit,
+		Version:      pkg.Version(),
+		SyncDBName:   &dbName,
+		Architecture: pkg.Architecture(),
 	}
 
 	if upgradeInfo == nil {
@@ -655,10 +657,11 @@ func (g *Grapher) addNodes(
 				Color:      colorMap[depType],
 				Background: bgColorMap[Sync],
 				Value: &InstallInfo{
-					Source:     Sync,
-					Reason:     depType,
-					Version:    alpmPkg.Version(),
-					SyncDBName: &dbName,
+					Source:       Sync,
+					Reason:       depType,
+					Version:      alpmPkg.Version(),
+					SyncDBName:   &dbName,
+					Architecture: alpmPkg.Architecture(),
 				},
 			})
 
